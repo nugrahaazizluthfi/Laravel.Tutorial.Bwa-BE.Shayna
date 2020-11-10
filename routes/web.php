@@ -20,6 +20,7 @@ Route::get('/', [Dashboard::class, 'index'])->name('dashboard');
 
 Auth::routes(['register' => false]);
 
-
+Route::get('/products/{id}/gallery',[Product::class,'gallery'])
+->name('products.gallery');
 Route::resource('products', Product::class);
 Route::resource('product_galleries', Gallery::class);
