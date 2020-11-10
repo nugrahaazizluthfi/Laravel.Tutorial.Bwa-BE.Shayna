@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController as Dashboard;
+use App\Http\Controllers\ProductController as Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,8 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [Dashboard::class, 'index'])->name('dashboard');
 
 Auth::routes(['register' => false]);
+
+
+Route::resource('products', Product::class);
