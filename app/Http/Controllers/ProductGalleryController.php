@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\ProductRequest;
+use App\Http\Requests\ProductGalleryRequest;
 use App\Models\Product;
-use Illuminate\Support\Str;
+use App\Models\ProductGallery;
 
-class ProductController extends Controller
+class ProductGalleryController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -27,8 +27,9 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $items = Product::all();
-        return view('pages.product.index',[
+        $items = ProductGallery::with('product')->get();
+
+        return view('pages.product_galleries.index',[
             'items' => $items
         ]);
     }
@@ -41,7 +42,10 @@ class ProductController extends Controller
     public function create()
     {
         //
-        return view('pages.product.create');
+        $products = Product::all();
+        return view('pages.product_galleries.create',[
+            'products' => $products
+        ]);
     }
 
     /**
@@ -50,15 +54,17 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProductRequest $request)
+    public function store(ProductGalleryRequest $request)
     {
         //
         $data = $request->all();
-        $data['slug'] = Str::slug($request->name);
+        $data['foto'] = $request->file('photo')
+                                ->store('assets/product','public');
 
-        Product::create($data);
+        ProductGallery::create($data);
 
-        return redirect()->route('products.index');
+        return redirect()->route('product_galleries.index');
+
     }
 
     /**
@@ -81,11 +87,6 @@ class ProductController extends Controller
     public function edit($id)
     {
         //
-        $item = Product::findOrFail($id);
-
-        return view('pages.product.edit',[
-            'item' => $item
-        ]);
     }
 
     /**
@@ -95,16 +96,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ProductRequest $request, $id)
+    public function update(Request $request, $id)
     {
         //
-        $data = $request->all();
-        $data['slug'] = Str::slug($request->name);
-
-        $item = Product::findOrFail($id);
-        $item->update($data);
-
-        return redirect()->route('products.index');
     }
 
     /**
@@ -116,9 +110,5 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
-        $item = Product::findOrFail($id);
-        $item->delete();
-
-        return redirect()->route('products.index');
     }
 }

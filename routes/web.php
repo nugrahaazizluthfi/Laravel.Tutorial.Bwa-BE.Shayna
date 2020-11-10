@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController as Dashboard;
 use App\Http\Controllers\ProductController as Product;
+use App\Http\Controllers\ProductGalleryController as Gallery;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,4 @@ Auth::routes(['register' => false]);
 
 
 Route::resource('products', Product::class);
+Route::resource('product_galleries', Gallery::class);
