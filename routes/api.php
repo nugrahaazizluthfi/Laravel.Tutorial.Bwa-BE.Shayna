@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\ProductController as ProductAPI;
+use App\Http\Controllers\API\CheckoutController as CheckoutAPI;
+use App\Http\Controllers\API\TransactionController as TransactionAPI;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +22,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/products',[ProductAPI::class, 'all']);
+Route::post('/checkout',[CheckoutAPI::class, 'checkout']);
+Route::get('/transactions/{id}',[TransactionAPI::class, 'get']);
+
