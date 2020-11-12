@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController as Dashboard;
 use App\Http\Controllers\ProductController as Product;
 use App\Http\Controllers\ProductGalleryController as Gallery;
+use App\Http\Controllers\TransactionController as Transaction;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,7 @@ Route::get('/products/{id}/gallery',[Product::class,'gallery'])
 ->name('products.gallery');
 Route::resource('products', Product::class);
 Route::resource('product_galleries', Gallery::class);
+
+Route::get('/transactions/{id}/set-status',[Transaction::class,'setStatus'])
+->name('transactions.status');
+Route::resource('transactions', Transaction::class);
